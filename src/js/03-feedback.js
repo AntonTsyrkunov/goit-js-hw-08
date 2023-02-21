@@ -4,7 +4,7 @@ const formEmailInput = document.querySelector('input');
 const formTextInput = document.querySelector('textarea');
 const feedbackForm = document.querySelector('.feedback-form');
 const LOCALSTORE_KEY = "feedback-form-state";
-const formData = {};
+let formData = {};
 
 
 feedbackForm.addEventListener('submit', onFormSubmit);
@@ -25,14 +25,13 @@ function onFormSubmit (evt) {
 
 const storageInfo = localStorage.getItem(LOCALSTORE_KEY);
 
-function handleReload () {  
-    console.log(storageInfo);
-    if (storageInfo) {
-      const formData = JSON.parse(storageInfo);
-      formEmailInput.value = formData.email;
-      formTextInput.value = formData.message;
-}
+function onLoad () {     
+   
+    formData = JSON.parse(storageInfo);
+    formEmailInput.value = formData.email || '';
+    formTextInput.value = formData.message || '';
+
 }
 
-handleReload();
+onLoad();
 
