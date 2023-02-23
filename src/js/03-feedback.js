@@ -9,11 +9,15 @@ let formData = {};
 
 feedbackForm.addEventListener('submit', onFormSubmit);
 
-feedbackForm.addEventListener('input', throttle(onTextInput, 500));
+formEmailInput.addEventListener('input', throttle(onTextInput, 500));
+formTextInput.addEventListener('input', throttle(onTextInput, 500));
+
+
 
 function onTextInput (evt) {
     formData[evt.target.name] = evt.target.value;
     localStorage.setItem(LOCALSTORE_KEY, JSON.stringify(formData));
+    console.log(evt.target.name);
 }
 
 function onFormSubmit (evt) {
@@ -23,11 +27,16 @@ function onFormSubmit (evt) {
     localStorage.removeItem(LOCALSTORE_KEY);
 }
 
-const storageInfo = localStorage.getItem(LOCALSTORE_KEY);
+
 
 function onLoad () {     
-   
-    formData = JSON.parse(storageInfo);
+    const storageInfo = localStorage.getItem(LOCALSTORE_KEY);
+    
+    const saver = JSON.parse(storageInfo);
+    if (!saver) {
+        return
+    }
+    formData = saver;
     formEmailInput.value = formData.email || '';
     formTextInput.value = formData.message || '';
 
